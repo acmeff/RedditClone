@@ -1,0 +1,13 @@
+<h2><%= @comment.content %></h2>
+<h3><%=link_to @comment.post.title, post_url(@comment.post) %></h3>
+<br>
+
+<label>Comments
+  <%= render 'comment', comment: @comment %>
+</label>
+
+<%= render 'comment_form', action_url: comments_url,
+                           action: :new,
+                           comment: Comment.new,
+                           parent_id: @comment.id,
+                           post_id: @comment.post.id%>

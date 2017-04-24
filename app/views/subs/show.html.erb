@@ -1,0 +1,23 @@
+<h1><%= @sub.title %></h1>
+<p><%= @sub.description %></p>
+
+<%= button_to 'Edit Sub', edit_sub_url, method: :get %>
+
+<%= button_to 'Create Post', new_post_url(@sub), method: :get %>
+
+<br>
+
+<% sorted_posts = @sub.posts.sort_by{|p| p.score}.reverse %>
+
+<h2>Posts</h2>
+<ul>
+<% sorted_posts.each do |post| %>
+  <li>
+  <%= link_to post.title, post_url(post) %>
+  <%= post.score %>
+  <%= button_to 'Upvote', upvote_post_url(post), method: :post %>
+  <%= button_to 'Downvote', downvote_post_url(post), method: :post %>
+  <br>
+  </li>
+<% end %>
+</ul>

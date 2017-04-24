@@ -1,0 +1,17 @@
+<h3><%= link_to comment.content, comment_url(comment) %></h3>
+<p>Created By: <%= comment.author.username %><br><%= comment.created_at %></p>
+<%= comment.score %>
+<%= button_to 'Upvote', upvote_comment_url(comment), method: :post %>
+<%= button_to 'Downvote', downvote_comment_url(comment), method: :post %>
+
+<br>
+
+<% sorted_comments = @comments_by_parent_id[comment.id].sort_by{ |com| com.score}.reverse %>
+
+<ul>
+  <% sorted_comments.each do |child| %>
+      <li>
+        <%= render 'comment', comment: child %>
+      </li>
+  <% end %>
+</ul>

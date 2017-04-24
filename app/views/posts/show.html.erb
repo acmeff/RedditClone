@@ -1,0 +1,37 @@
+<h1>Title: <%= @post.title %></h1>
+<h3>URL: <%= @post.url %></h3>
+<h2><%= @post.content %></h2>
+
+
+<h3>Subs</h3>
+<ul>
+  <% @post.subs.each do |sub| %>
+  <li><%= link_to sub.title, sub_url(sub) %></li>
+  <% end %>
+</ul>
+
+<br>
+
+<% @all_comments = @post.comments.includes(:author) %>
+
+<% @all_comments = @all_comments.sort_by{|com| com.score}.reverse %>
+
+<h3>Comments</h3>
+<ul>
+  <% @all_comments.each do |comment| %>
+    <% if comment.parent_comment_id == nil %>
+      <li>
+        <%= render 'comment', comment: comment,
+                              child_comments: @post.comments_by_parent_id[comment.id] %>
+      </li>
+    <% end %>
+  <br>
+  <% end %>
+</ul>
+
+<br>
+
+
+
+<%= link_to 'New Comment', new_post_comment_url(@post) %>
+<%= button_to 'Edit Post', edit_post_url, method: :get %>
